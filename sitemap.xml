@@ -13,6 +13,24 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://триада-мастер-лестниц.рф/article/raschet-lestnicy/</loc>
+        <lastmod>2026-10-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://триада-мастер-лестниц.рф/article/lestnicy-loft/</loc>
+        <lastmod>2026-10-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://триада-мастер-лестниц.рф/article/porody-dereva/</loc>
+        <lastmod>2026-10-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://триада-мастер-лестниц.рф/privacy/</loc>
         <lastmod>2026-10-31</lastmod>
         <changefreq>yearly</changefreq>

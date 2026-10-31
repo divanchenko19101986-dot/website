@@ -53,7 +53,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://www.google.com/recaptcha/api.js?render=6LfBQAouAAAAABggrIToChfi6sjuVk4_2bt6Ht_8&hl=ru" async defer></script>
 </head>
 <body>
 
@@ -74,6 +73,7 @@
                 <li><a href="/#services" class="nav__link">Услуги и цены</a></li>
                 <li><a href="/#process" class="nav__link">Процесс</a></li>
                 <li><a href="/#about" class="nav__link">О мастере</a></li>
+                <li><a href="/#articles" class="nav__link">Статьи</a></li>
                 <li><a href="/#contacts" class="nav__link">Контакты</a></li>
             </ul>
         </nav>
@@ -274,6 +274,51 @@
         </div>
     </section>
 
+    <section class="section articles" id="articles">
+        <div class="container">
+            <h2 class="section__title reveal">Полезные статьи</h2>
+            <p class="section__subtitle reveal">Советы по выбору, расчёту и материалам — от мастера с собственным производством</p>
+
+            <div class="articles__grid">
+                <a href="/article/raschet-lestnicy/" class="article-card reveal">
+                    <div class="article-card__image">
+                        <img src="img/portfolio-1.webp" alt="Как рассчитать лестницу на металлокаркасе" loading="lazy">
+                        <span class="article-card__tag">Расчёт</span>
+                    </div>
+                    <div class="article-card__body">
+                        <h3 class="article-card__title">Как рассчитать лестницу на металлокаркасе: эргономика и безопасность</h3>
+                        <p class="article-card__excerpt">Формула шага, высота подступенка, глубина проступи и угол наклона — с примером для проёма 2,8 м.</p>
+                        <span class="article-card__more">Читать →</span>
+                    </div>
+                </a>
+
+                <a href="/article/lestnicy-loft/" class="article-card reveal">
+                    <div class="article-card__image">
+                        <img src="img/portfolio-6.webp" alt="Лестница в стиле лофт" loading="lazy">
+                        <span class="article-card__tag">Дизайн</span>
+                    </div>
+                    <div class="article-card__body">
+                        <h3 class="article-card__title">Лестница в стиле лофт: почему металл и дерево стали классикой</h3>
+                        <p class="article-card__excerpt">Как вписать металлокаркас в современный интерьер, какой металл и дерево выбрать для лофта.</p>
+                        <span class="article-card__more">Читать →</span>
+                    </div>
+                </a>
+
+                <a href="/article/porody-dereva/" class="article-card reveal">
+                    <div class="article-card__image">
+                        <img src="img/portfolio-7.webp" alt="Породы дерева для ступеней лестницы" loading="lazy">
+                        <span class="article-card__tag">Материалы</span>
+                    </div>
+                    <div class="article-card__body">
+                        <h3 class="article-card__title">Дуб, ясень, лиственница или сосна: какое дерево выбрать для ступеней</h3>
+                        <p class="article-card__excerpt">Сравнение пород по твёрдости, плотности и цене — без маркетинга, по характеристикам.</p>
+                        <span class="article-card__more">Читать →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section class="section contacts" id="contacts">
         <div class="container">
             <h2 class="section__title reveal">Свяжитесь со мной</h2>
@@ -320,6 +365,9 @@
                 </div>
 
                 <form class="contacts__form reveal" id="order" novalidate>
+                    <div class="form__honeypot" aria-hidden="true">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <input type="text" name="name" placeholder="Ваше имя" class="form__input" maxlength="50" required>
                     <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" class="form__input" maxlength="18" inputmode="tel" required>
                     <textarea name="message" placeholder="Опишите задачу (высота проёма, материал, город)" class="form__input form__textarea" rows="4" maxlength="500"></textarea>

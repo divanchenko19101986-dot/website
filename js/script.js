@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwtqwLjpSfEVHn3si4fNs78K8gsjwb-1ZoiB9tuVvuBG6CjCWCJzvvh3K9Zm8gSx_g/exec';
-    const RECAPTCHA_SITE_KEY = '6LfBQAouAAAAABggrIToChfi6sjuVk4_2bt6Ht_8';
     const prefix = document.body.dataset.prefix || '';
 
     document.querySelectorAll('.year').forEach(el => {
@@ -329,7 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         const phoneInput = contactForm.querySelector('input[name="phone"]');
         const messageInput = contactForm.querySelector('textarea[name="message"]');
+        const honeypotInput = contactForm.querySelector('input[name="website"]');
         const submitBtn = contactForm.querySelector('button[type="submit"]');
+        let formLoadTime = Date.now();
 
         const formatPhone = (value) => {
             let digits = value.replace(/\D/g, '');
@@ -363,6 +364,19 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            if (honeypotInput && honeypotInput.value.trim() !== '') {
+                showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
+                contactForm.reset();
+                if (msgCount) msgCount.textContent = '0';
+                return;
+            }
+
+            const elapsed = Date.now() - formLoadTime;
+            if (elapsed < 2000) {
+                showModal('Ошибка', 'Пожалуйста, заполните форму внимательнее и попробуйте снова.', 'error');
+                return;
+            }
+
             const name = contactForm.querySelector('input[name="name"]').value.trim();
             const phone = contactForm.querySelector('input[name="phone"]').value.trim();
             const message = messageInput ? messageInput.value.trim() : '';
@@ -378,19 +392,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (typeof grecaptcha === 'undefined') {
-                showModal('Ошибка', 'Не удалось загрузить проверку reCAPTCHA. Обновите страницу и попробуйте снова.', 'error');
-                return;
-            }
-
             const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Отправка...';
 
             try {
-                await new Promise(resolve => grecaptcha.ready(resolve));
-                const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
-
                 const response = await fetch(FORM_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -399,8 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         phone: phone,
                         message: message,
                         page: getPageName(),
-                        source: 'website',
-                        recaptchaToken: token
+                        source: 'website'
                     })
                 });
 
@@ -410,6 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
                     contactForm.reset();
                     if (msgCount) msgCount.textContent = '0';
+                    formLoadTime = Date.now();
                 } else {
                     throw new Error((result && result.error) || 'Ошибка сервера');
                 }
