@@ -150,8 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function scrollToCard(card) {
             const trackRect = track.getBoundingClientRect();
             const cardRect = card.getBoundingClientRect();
-            const paddingLeft = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-            const delta = cardRect.left - trackRect.left - paddingLeft;
+            const delta = cardRect.left - trackRect.left;
             track.scrollTo({ left: track.scrollLeft + delta, behavior: 'smooth' });
         }
 
@@ -207,6 +206,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         updateActive();
+    }
+
+    const parallaxBanner = document.querySelector('.parallax-banner');
+    if (parallaxBanner && window.matchMedia('(max-width: 768px)').matches) {
+        let ticking = false;
+        const updateParallax = () => {
+            const rect = parallaxBanner.getBoundingClientRect();
+            const vh = window.innerHeight;
+            if (rect.bottom < -100 || rect.top > vh + 100) {
+                ticking = false;
+                return;
+            }
+            const progress = (vh - rect.top) / (vh + rect.height);
+            const y = (progress - 0.5) * 220;
+            parallaxBanner.style.backgroundPosition = `center calc(50% + ${y}px)`;
+            ticking = false;
+        };
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
+        window.addEventListener('resize', updateParallax, { passive: true });
+        updateParallax();
     }
 
     const fullGallery = document.querySelector('[data-full-gallery]');

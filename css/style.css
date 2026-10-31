@@ -420,6 +420,7 @@ section[id],
     background-image: url('../img/parallax-bg.webp');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
     color: var(--white);
     text-align: center;
@@ -432,6 +433,7 @@ section[id],
     inset: 0;
     background: linear-gradient(135deg, rgba(44, 44, 44, 0.85), rgba(44, 44, 44, 0.65));
     z-index: 0;
+    pointer-events: none;
 }
 
 .parallax-banner__inner {
@@ -455,8 +457,27 @@ section[id],
     margin-bottom: 28px;
 }
 
+.back-bar {
+    padding: 100px 0 16px;
+    background: var(--gray-bg);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--graphite);
+    transition: color var(--transition);
+}
+
+.back-link:hover {
+    color: var(--gold);
+}
+
 .page-header {
-    padding: 120px 0 40px;
+    padding: 0 0 40px;
     background: var(--gray-bg);
 }
 
@@ -1063,10 +1084,11 @@ section[id],
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
+        overflow-y: hidden;
         scroll-snap-type: x mandatory;
-        gap: 12px;
         margin: 0 -24px;
-        padding: 0 24px;
+        padding: 0;
+        gap: 0;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
@@ -1077,8 +1099,15 @@ section[id],
 
     [data-slider] .portfolio-card {
         flex: 0 0 100%;
-        scroll-snap-align: start;
+        min-width: 100%;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
         aspect-ratio: 4 / 3;
+        border-radius: 0;
+    }
+
+    [data-slider] .portfolio-card:hover .portfolio-card__img {
+        transform: none;
     }
 
     .slider-controls {
@@ -1126,6 +1155,10 @@ section[id],
         gap: 12px;
     }
 
+    .portfolio__grid--full .portfolio-card {
+        border-radius: var(--radius);
+    }
+
     .parallax-banner {
         background-attachment: scroll;
         padding: 64px 0;
@@ -1139,8 +1172,12 @@ section[id],
         margin-bottom: 24px;
     }
 
+    .back-bar {
+        padding: 80px 0 12px;
+    }
+
     .page-header {
-        padding: 100px 0 32px;
+        padding: 0 0 32px;
     }
 
     .services__grid {
