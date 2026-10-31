@@ -6,6 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
         el.textContent = new Date().getFullYear();
     });
 
+    if (!document.querySelector('.call-fab')) {
+        const callFab = document.createElement('a');
+        callFab.href = 'tel:+79683255505';
+        callFab.className = 'call-fab';
+        callFab.setAttribute('aria-label', 'Позвонить мастеру');
+        callFab.innerHTML = `
+            <span class="call-fab__label">Позвонить</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
+        document.body.appendChild(callFab);
+    }
+
     const burger = document.getElementById('burger');
     const nav = document.getElementById('nav');
 
@@ -23,16 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
-            }
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    const delay = Math.min(i * 60, 300);
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.05,
+            rootMargin: '0px 0px -40px 0px'
         });
-    }, { threshold: 0.12 });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
 
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
@@ -210,26 +234,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const parallaxBanner = document.querySelector('.parallax-banner');
-    if (parallaxBanner && window.matchMedia('(max-width: 768px)').matches) {
+    const parallaxBg = parallaxBanner ? parallaxBanner.querySelector('.parallax-banner__bg') : null;
+
+    if (parallaxBanner && parallaxBg) {
         let ticking = false;
+        let lastY = null;
+
         const updateParallax = () => {
             const rect = parallaxBanner.getBoundingClientRect();
             const vh = window.innerHeight;
+
             if (rect.bottom < -100 || rect.top > vh + 100) {
                 ticking = false;
                 return;
             }
+
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const range = isMobile ? 80 : 200;
             const progress = (vh - rect.top) / (vh + rect.height);
-            const y = (progress - 0.5) * 220;
-            parallaxBanner.style.backgroundPosition = `center calc(50% + ${y}px)`;
+            const y = Math.round((progress - 0.5) * range);
+
+            if (y !== lastY) {
+                parallaxBg.style.transform = `translate3d(0, ${y}px, 0)`;
+                lastY = y;
+            }
             ticking = false;
         };
+
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(updateParallax);
                 ticking = true;
             }
         }, { passive: true });
+
         window.addEventListener('resize', updateParallax, { passive: true });
         updateParallax();
     }
@@ -365,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             if (honeypotInput && honeypotInput.value.trim() !== '') {
-                showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
+                showModal('Успешно!', 'Спасибо! Заявка отправлена.', 'success');
                 contactForm.reset();
                 if (msgCount) msgCount.textContent = '0';
                 return;

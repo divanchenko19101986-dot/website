@@ -53,6 +53,95 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "ТРИАДА — Мастер лестниц",
+        "description": "Изготовление лестниц на металлокаркасе под ключ. Ступени из дуба, ясеня, лиственницы, сосны. Ограждения лофт.",
+        "url": "https://триада-мастер-лестниц.рф/",
+        "telephone": "+79683255505",
+        "email": "divanchenko19101986@mail.ru",
+        "image": "https://триада-мастер-лестниц.рф/img/og-image.webp",
+        "priceRange": "от 45000 ₽",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "RU",
+            "addressRegion": "Московская область",
+            "addressLocality": "Клин",
+            "streetAddress": "деревня Полуханово, с. 7, вл. 54"
+        },
+        "areaServed": [
+            {"@type": "City", "name": "Клин"},
+            {"@type": "City", "name": "Солнечногорск"},
+            {"@type": "AdministrativeArea", "name": "Московская область"}
+        ],
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "09:00",
+            "closes": "20:00"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Сколько стоит лестница на металлокаркасе?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Металлокаркас — от 45 000 ₽ за метр высоты. Ступени: дуб от 9 000 ₽/ступень, ясень от 8 500 ₽, лиственница от 6 500 ₽, сосна от 4 500 ₽. Ограждения — от 10 000 ₽ за метр погонный. Итоговая цена зависит от конфигурации и сложности."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Сколько времени занимает изготовление лестницы?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Стандартная лестница на металлокаркасе изготавливается 3–5 недель с момента согласования чертежа. Срок зависит от сложности конструкции."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Вы работаете за пределами Клина?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Да. Основные города — Клин и Солнечногорск, но выезжаю на замеры и монтаж по всей Московской области: Зеленоград, Дмитров, Лобня, Химки, Истра и другие."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Можно ли установить лестницу в уже готовый проём?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Да, в большинстве случаев. Я замеряю готовый проём и подгоняю конструкцию под него. Если размеры не позволяют сделать удобный марш — предложу поворотную конструкцию с площадкой."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Что входит в стоимость?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "В стоимость входит изготовление металлокаркаса, ступеней и ограждений, обработка дерева, покраска металла, доставка и монтаж. Дополнительно оплачивается только выезд на замер за пределами стандартного радиуса."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Какая гарантия на лестницу?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Гарантия на металлокаркас и монтаж — 2 года. На деревянные ступени — 1 год при соблюдении условий эксплуатации. Все обязательства фиксируются в договоре."
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
 
@@ -74,6 +163,7 @@
                 <li><a href="/#process" class="nav__link">Процесс</a></li>
                 <li><a href="/#about" class="nav__link">О мастере</a></li>
                 <li><a href="/#articles" class="nav__link">Статьи</a></li>
+                <li><a href="/#faq" class="nav__link">Вопросы</a></li>
                 <li><a href="/#contacts" class="nav__link">Контакты</a></li>
             </ul>
         </nav>
@@ -195,6 +285,7 @@
     </section>
 
     <section class="parallax-banner">
+        <div class="parallax-banner__bg" style="background-image: url('img/parallax-bg.webp');"></div>
         <div class="container parallax-banner__inner">
             <p class="parallax-banner__quote reveal">Каждая лестница — инженерная точность и ручная работа мастера</p>
             <p class="parallax-banner__text reveal">Собственное производство в деревне Полуханово. Личный контроль качества на каждом этапе.</p>
@@ -379,6 +470,58 @@
 
             <div class="map reveal">
                 <iframe src="https://yandex.ru/map-widget/v1/?text=Московская%20область%2C%20Клин%2C%20деревня%20Полуханово%2C%207&z=14" width="100%" height="360" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="section faq" id="faq">
+        <div class="container">
+            <h2 class="section__title reveal">Частые вопросы</h2>
+            <p class="section__subtitle reveal">Ответы на вопросы, которые чаще всего задают перед заказом лестницы</p>
+
+            <div class="faq__list">
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Сколько стоит лестница на металлокаркасе?</summary>
+                    <div class="faq-item__answer">
+                        <p>Минимальная стоимость металлокаркаса — <strong>от 45 000 ₽ за метр высоты</strong>. Ступени рассчитываются отдельно: дуб — от 9 000 ₽ за ступень, ясень — от 8 500 ₽, лиственница — от 6 500 ₽, сосна — от 4 500 ₽. Ограждения — от 10 000 ₽ за метр погонный.</p>
+                        <p>Итоговая цена зависит от конфигурации (прямая, поворотная, винтовая), размеров и сложности — её я называю после замера.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Сколько времени занимает изготовление лестницы?</summary>
+                    <div class="faq-item__answer">
+                        <p>Стандартная лестница на металлокаркасе изготавливается <strong>3–5 недель</strong> с момента согласования чертежа. Срок зависит от сложности: прямая маршевая быстрее, винтовая или с поворотными площадками — дольше. Точный срок называю после проекта.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Вы работаете за пределами Клина?</summary>
+                    <div class="faq-item__answer">
+                        <p>Да. Основные города — <strong>Клин и Солнечногорск</strong>, но выезжаю на замеры и монтаж по всей Московской области: Зеленоград, Дмитров, Лобня, Химки, Истра, Подольск и другие. Дальние выезды обсуждаются отдельно.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Можно ли установить лестницу в уже готовый проём?</summary>
+                    <div class="faq-item__answer">
+                        <p>Да, в большинстве случаев. Я замеряю готовый проём и подгоняю конструкцию под него. Если размеры проёма не позволяют сделать удобный марш — предложу поворотную конструкцию с площадкой или другой вариант, чтобы лестница оставалась безопасной.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Что входит в стоимость?</summary>
+                    <div class="faq-item__answer">
+                        <p>В стоимость входит изготовление металлокаркаса, ступеней и ограждений, обработка дерева, покраска металла, доставка и монтаж. Дополнительно оплачивается только выезд на замер за пределами стандартного радиуса — об этом я предупреждаю заранее.</p>
+                    </div>
+                </details>
+
+                <details class="faq-item reveal">
+                    <summary class="faq-item__question">Какая гарантия на лестницу?</summary>
+                    <div class="faq-item__answer">
+                        <p>Гарантия на металлокаркас и монтаж — <strong>2 года</strong>. На деревянные ступени — 1 год при соблюдении условий эксплуатации (влажность, уход). Все обязательства фиксируются в договоре.</p>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
