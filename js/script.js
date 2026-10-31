@@ -361,6 +361,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (typeof grecaptcha === 'undefined') {
+                showModal('Ошибка', 'Не удалось загрузить проверку reCAPTCHA. Обновите страницу и попробуйте снова.', 'error');
+                return;
+            }
+
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                showModal('Подтвердите действие', 'Пожалуйста, поставьте галочку «Я не робот».', 'error');
+                return;
+            }
+
             const name = contactForm.querySelector('input[name="name"]').value.trim();
             const phone = contactForm.querySelector('input[name="phone"]').value.trim();
             const message = messageInput ? messageInput.value.trim() : '';
@@ -368,11 +380,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name) {
                 showModal('Ошибка', 'Пожалуйста, укажите ваше имя.', 'error');
+                grecaptcha.reset();
                 return;
             }
 
             if (digits.length !== 11) {
                 showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона.', 'error');
+                grecaptcha.reset();
                 return;
             }
 
@@ -389,7 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         phone: phone,
                         message: message,
                         page: getPageName(),
-                        source: 'website'
+                        source: 'website',
+                        recaptchaToken: recaptchaResponse
                     })
                 });
 
@@ -407,6 +422,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
             }
         });
     }

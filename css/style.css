@@ -1103,6 +1103,7 @@ section[id],
 }
 
 @media (max-width: 768px) {
+
     section[id],
     .contacts__form {
         scroll-margin-top: 80px;
@@ -1366,5 +1367,18 @@ section[id],
 
     .modal__text {
         font-size: 14px;
+    }
+}
+
+.g-recaptcha {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (max-width: 480px) {
+    .g-recaptcha {
+        transform: scale(0.92);
+        transform-origin: left center;
     }
 }
