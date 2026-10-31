@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwtqwLjpSfEVHn3si4fNs78K8gsjwb-1ZoiB9tuVvuBG6CjCWCJzvvh3K9Zm8gSx_g/exec';
-    const RECAPTCHA_SITE_KEY = '6LeeIAouAAAAAEMTn6HoZGDvd3pCLUp2HwdVm104';
+    const RECAPTCHA_SITE_KEY = '6LfBQAouAAAAABggrIToChfi6sjuVk4_2bt6Ht_8';
     const prefix = document.body.dataset.prefix || '';
 
     document.querySelectorAll('.year').forEach(el => {
