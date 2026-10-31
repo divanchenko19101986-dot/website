@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwtqwLjpSfEVHn3si4fNs78K8gsjwb-1ZoiB9tuVvuBG6CjCWCJzvvh3K9Zm8gSx_g/exec';
+    const RECAPTCHA_SITE_KEY = '6LeeIAouAAAAAEMTn6HoZGDvd3pCLUp2HwdVm104';
     const prefix = document.body.dataset.prefix || '';
 
     document.querySelectorAll('.year').forEach(el => {
@@ -362,17 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            if (typeof grecaptcha === 'undefined') {
-                showModal('Ошибка', 'Не удалось загрузить проверку reCAPTCHA. Обновите страницу и попробуйте снова.', 'error');
-                return;
-            }
-
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                showModal('Подтвердите действие', 'Пожалуйста, поставьте галочку «Я не робот».', 'error');
-                return;
-            }
-
             const name = contactForm.querySelector('input[name="name"]').value.trim();
             const phone = contactForm.querySelector('input[name="phone"]').value.trim();
             const message = messageInput ? messageInput.value.trim() : '';
@@ -380,13 +370,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name) {
                 showModal('Ошибка', 'Пожалуйста, укажите ваше имя.', 'error');
-                grecaptcha.reset();
                 return;
             }
 
             if (digits.length !== 11) {
                 showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона.', 'error');
-                grecaptcha.reset();
+                return;
+            }
+
+            if (typeof grecaptcha === 'undefined') {
+                showModal('Ошибка', 'Не удалось загрузить проверку reCAPTCHA. Обновите страницу и попробуйте снова.', 'error');
                 return;
             }
 
@@ -395,6 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Отправка...';
 
             try {
+                await new Promise(resolve => grecaptcha.ready(resolve));
+                const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
+
                 const response = await fetch(FORM_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -404,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         message: message,
                         page: getPageName(),
                         source: 'website',
-                        recaptchaToken: recaptchaResponse
+                        recaptchaToken: token
                     })
                 });
 
@@ -418,13 +414,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error((result && result.error) || 'Ошибка сервера');
                 }
             } catch (error) {
+                console.error('Форма отправки:', error);
                 showModal('Ошибка отправки', 'Не удалось отправить заявку. Пожалуйста, позвоните по телефону 8 968 325-55-05.', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
-                if (typeof grecaptcha !== 'undefined') {
-                    grecaptcha.reset();
-                }
             }
         });
     }
