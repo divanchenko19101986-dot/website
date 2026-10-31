@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwtqwLjpSfEVHn3si4fNs78K8gsjwb-1ZoiB9tuVvuBG6CjCWCJzvvh3K9Zm8gSx_g/exec';
     const prefix = document.body.dataset.prefix || '';
 
     document.querySelectorAll('.year').forEach(el => {
@@ -270,6 +271,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function getPageName() {
+        const path = location.pathname.replace(/\/+$/, '');
+        if (path === '' || path === '/index.html') return 'Главная';
+        if (path.endsWith('/works') || path.endsWith('/works/index.html')) return 'Все работы';
+        if (path.endsWith('/privacy') || path.endsWith('/privacy/index.html')) return 'Политика конфиденциальности';
+        return path || 'Главная';
+    }
+
     const contactForm = document.getElementById('order');
     const formMessage = document.getElementById('formMessage');
     const msgCount = document.getElementById('msgCount');
@@ -277,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         const phoneInput = contactForm.querySelector('input[name="phone"]');
         const messageInput = contactForm.querySelector('textarea[name="message"]');
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
 
         const formatPhone = (value) => {
             let digits = value.replace(/\D/g, '');
@@ -307,10 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCount();
         }
 
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = contactForm.querySelector('input[name="name"]').value.trim();
             const phone = contactForm.querySelector('input[name="phone"]').value.trim();
+            const message = messageInput ? messageInput.value.trim() : '';
             const digits = phone.replace(/\D/g, '');
 
             if (!name) {
@@ -325,15 +336,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            formMessage.textContent = 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.';
-            formMessage.className = 'form__message success';
-            contactForm.reset();
-            if (msgCount) msgCount.textContent = '0';
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+            formMessage.textContent = '';
+            formMessage.className = 'form__message';
 
-            setTimeout(() => {
-                formMessage.textContent = '';
-                formMessage.className = 'form__message';
-            }, 5000);
+            try {
+                const response = await fetch(FORM_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        name: name,
+                        phone: phone,
+                        message: message,
+                        page: getPageName(),
+                        source: 'website'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result && result.success) {
+                    formMessage.textContent = 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.';
+                    formMessage.className = 'form__message success';
+                    contactForm.reset();
+                    if (msgCount) msgCount.textContent = '0';
+
+                    setTimeout(() => {
+                        formMessage.textContent = '';
+                        formMessage.className = 'form__message';
+                    }, 6000);
+                } else {
+                    throw new Error((result && result.error) || 'Ошибка сервера');
+                }
+            } catch (error) {
+                formMessage.textContent = 'Не удалось отправить заявку. Позвоните по телефону 8 968 325-55-05.';
+                formMessage.className = 'form__message error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
         });
     }
 });
