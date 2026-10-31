@@ -279,8 +279,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return path || 'Главная';
     }
 
+    function showModal(title, text, type = 'success') {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        const icon = type === 'success' ? '✓' : '!';
+        overlay.innerHTML = `
+            <div class="modal" role="dialog" aria-modal="true">
+                <button class="modal__close" type="button" aria-label="Закрыть">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+                <div class="modal__icon modal__icon--${type}">${icon}</div>
+                <h3 class="modal__title">${title}</h3>
+                <p class="modal__text">${text}</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        requestAnimationFrame(() => overlay.classList.add('active'));
+
+        let closed = false;
+        const close = () => {
+            if (closed) return;
+            closed = true;
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.remove(), 300);
+        };
+
+        const autoClose = setTimeout(close, 6000);
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay || e.target.closest('.modal__close')) {
+                clearTimeout(autoClose);
+                close();
+            }
+        });
+
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                clearTimeout(autoClose);
+                close();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+    }
+
     const contactForm = document.getElementById('order');
-    const formMessage = document.getElementById('formMessage');
     const msgCount = document.getElementById('msgCount');
 
     if (contactForm) {
@@ -325,22 +367,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const digits = phone.replace(/\D/g, '');
 
             if (!name) {
-                formMessage.textContent = 'Пожалуйста, укажите имя.';
-                formMessage.className = 'form__message error';
+                showModal('Ошибка', 'Пожалуйста, укажите ваше имя.', 'error');
                 return;
             }
 
             if (digits.length !== 11) {
-                formMessage.textContent = 'Пожалуйста, введите корректный номер телефона.';
-                formMessage.className = 'form__message error';
+                showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона.', 'error');
                 return;
             }
 
             const originalBtnText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Отправка...';
-            formMessage.textContent = '';
-            formMessage.className = 'form__message';
 
             try {
                 const response = await fetch(FORM_ENDPOINT, {
@@ -358,21 +396,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (result && result.success) {
-                    formMessage.textContent = 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.';
-                    formMessage.className = 'form__message success';
+                    showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
                     contactForm.reset();
                     if (msgCount) msgCount.textContent = '0';
-
-                    setTimeout(() => {
-                        formMessage.textContent = '';
-                        formMessage.className = 'form__message';
-                    }, 6000);
                 } else {
                     throw new Error((result && result.error) || 'Ошибка сервера');
                 }
             } catch (error) {
-                formMessage.textContent = 'Не удалось отправить заявку. Позвоните по телефону 8 968 325-55-05.';
-                formMessage.className = 'form__message error';
+                showModal('Ошибка отправки', 'Не удалось отправить заявку. Пожалуйста, позвоните по телефону 8 968 325-55-05.', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
