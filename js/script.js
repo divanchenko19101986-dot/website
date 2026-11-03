@@ -58,6 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
     }
 
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('toggle', () => {
+            if (item.open) {
+                document.querySelectorAll('.faq-item').forEach(other => {
+                    if (other !== item && other.open) {
+                        other.open = false;
+                    }
+                });
+            }
+        });
+    });
+
+    const footerInner = document.querySelector('.footer__inner');
+    if (footerInner && !footerInner.querySelector('.footer__meta-note')) {
+        const metaNote = document.createElement('p');
+        metaNote.className = 'footer__meta-note';
+        metaNote.textContent = 'Instagram и WhatsApp — продукты компании Meta, признанной экстремистской организацией в России';
+        footerInner.appendChild(metaNote);
+    }
+
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
     lightbox.innerHTML = `

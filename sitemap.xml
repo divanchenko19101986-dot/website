@@ -36,4 +36,10 @@
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
+    <url>
+        <loc>https://xn----7sbaba2bcdqk0b0c.xn--p1ai/article/lazernaya-rezka-svarka/</loc>
+        <lastmod>2026-11-03</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
 </urlset>

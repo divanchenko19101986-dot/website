@@ -717,14 +717,46 @@ section[id],
     font-size: 16px;
 }
 
+.about__facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+}
+
+.about__fact {
+    padding: 14px 16px;
+    background: var(--gray-bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+}
+
+.about__fact-title {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--graphite);
+    margin-bottom: 4px;
+}
+
+.about__fact-text {
+    display: block;
+    font-size: 13px;
+    color: var(--graphite-light);
+    line-height: 1.5;
+}
+
 .articles {
     background: linear-gradient(180deg, var(--white) 0%, var(--gray-bg) 100%);
 }
 
 .articles__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
 .article-card {
@@ -777,7 +809,7 @@ section[id],
 }
 
 .article-card__body {
-    padding: 24px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -785,7 +817,7 @@ section[id],
 
 .article-card__title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.35;
     color: var(--graphite);
@@ -815,6 +847,68 @@ section[id],
 
 .article-card:hover .article-card__more {
     color: var(--gold-light);
+}
+
+.reviews {
+    background: linear-gradient(180deg, var(--white) 0%, var(--gray-bg) 100%);
+}
+
+.reviews__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+
+.review-card {
+    flex: 0 1 calc(33.333% - 16px);
+    min-width: 260px;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.review-card__stars {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+    line-height: 1;
+}
+
+.review-card__text {
+    font-size: 15px;
+    color: var(--graphite-light);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    flex: 1;
+}
+
+.review-card__name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: var(--graphite);
+    font-size: 15px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.review-card__name::before {
+    content: '—';
+    color: var(--gold);
+    font-weight: 400;
 }
 
 .contacts__grid {
@@ -884,6 +978,16 @@ section[id],
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+.messenger-btn--wa {
+    border-color: #25D366;
+    color: #25D366;
+}
+
+.messenger-btn--wa:hover {
+    background: #25D366;
+    color: var(--white);
+}
+
 .messenger-btn--tg {
     border-color: #229ED9;
     color: #229ED9;
@@ -901,6 +1005,27 @@ section[id],
 
 .messenger-btn--max:hover {
     background: #6B4EFF;
+    color: var(--white);
+}
+
+.messenger-btn--ig {
+    border-color: #E1306C;
+    color: #E1306C;
+}
+
+.messenger-btn--ig:hover {
+    background: linear-gradient(45deg, #405DE6, #E1306C, #FFDC80);
+    border-color: transparent;
+    color: var(--white);
+}
+
+.messenger-btn--avito {
+    border-color: #00AAFF;
+    color: #00AAFF;
+}
+
+.messenger-btn--avito:hover {
+    background: #00AAFF;
     color: var(--white);
 }
 
@@ -1080,6 +1205,17 @@ section[id],
 
 .footer__policy a:hover {
     color: var(--gold-light);
+}
+
+.footer__meta-note {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.5;
 }
 
 .lightbox {
@@ -1664,6 +1800,10 @@ section[id],
     .article-related__list {
         grid-template-columns: 1fr;
     }
+
+    .review-card {
+        flex: 0 1 calc(50% - 12px);
+    }
 }
 
 @media (max-width: 768px) {
@@ -1832,6 +1972,15 @@ section[id],
 
     .article-card__excerpt {
         font-size: 14px;
+    }
+
+    .review-card {
+        flex: 1 1 100%;
+        padding: 24px;
+    }
+
+    .about__facts {
+        grid-template-columns: 1fr;
     }
 
     .contacts__form {
