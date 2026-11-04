@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwtqwLjpSfEVHn3si4fNs78K8gsjwb-1ZoiB9tuVvuBG6CjCWCJzvvh3K9Zm8gSx_g/exec';
+    const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyxL9Qcf9GXyxlnu_GTA0K9tMRyrXesNVn37oFRVizIh7oeso2DQco3aZOcbW312nhxxg/exec';
     const prefix = document.body.dataset.prefix || '';
 
     document.querySelectorAll('.year').forEach(el => {
