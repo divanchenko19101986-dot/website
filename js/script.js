@@ -385,6 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (contactForm) {
         const phoneInput = contactForm.querySelector('input[name="phone"]');
+        const nameInput = contactForm.querySelector('input[name="name"]');
         const messageInput = contactForm.querySelector('textarea[name="message"]');
         const honeypotInput = contactForm.querySelector('input[name="website"]');
         const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -435,8 +436,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const name = contactForm.querySelector('input[name="name"]').value.trim();
-            const phone = contactForm.querySelector('input[name="phone"]').value.trim();
+            const name = nameInput ? nameInput.value.trim() : '';
+            const phone = phoneInput ? phoneInput.value.trim() : '';
             const message = messageInput ? messageInput.value.trim() : '';
             const digits = phone.replace(/\D/g, '');
 
@@ -455,28 +456,23 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Отправка...';
 
             try {
-                const response = await fetch(FORM_ENDPOINT, {
+                // === ТОЧНО КАК НА DIGITAL GREATNESS ===
+                await fetch(FORM_ENDPOINT, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
                     body: JSON.stringify({
-                        name: name,
-                        phone: phone,
-                        message: message,
-                        page: getPageName(),
+                        business: name,
+                        link: message || getPageName(),
+                        contact: phone,
                         source: 'website'
                     })
                 });
 
-                const result = await response.json();
-
-                if (result && result.success) {
-                    showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
-                    contactForm.reset();
-                    if (msgCount) msgCount.textContent = '0';
-                    formLoadTime = Date.now();
-                } else {
-                    throw new Error((result && result.error) || 'Ошибка сервера');
-                }
+                showModal('Успешно!', 'Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.', 'success');
+                contactForm.reset();
+                if (msgCount) msgCount.textContent = '0';
+                formLoadTime = Date.now();
             } catch (error) {
                 console.error('Форма отправки:', error);
                 showModal('Ошибка отправки', 'Не удалось отправить заявку. Пожалуйста, позвоните по телефону 8 968 325-55-05.', 'error');
